@@ -8,7 +8,7 @@ import homepageReduser from './homepage-reduser';
 import catalogReduser from './catalog-reduser';
 
 import appReduser from './app-reduser.ts';
-import authReduser from './auth-reduser';
+import authReduser from './auth-reduser.ts';
 
 
 import thunkMiddleware from 'redux-thunk';

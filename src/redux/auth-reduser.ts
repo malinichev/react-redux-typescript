@@ -1,4 +1,4 @@
-import {isDataLoad} from './app-reduser.ts';
+import {isDataLoad} from './app-reduser';
 import {LogInUserApi, RegisterNewUserApi} from '../api'
 
 
@@ -9,14 +9,18 @@ const SET_LOG_OUT = 'auth/SET_LOG_OUT';
 const SET_ME = 'auth/SET_ME';
 const IS_ERROR_LOGIN = 'auth/IS_ERROR_LOGIN';
 
-
-const initState = {
+export type InitStateType = {
+    isLogIn:Boolean,
+        user:Object,
+        isErr: Boolean,
+}
+const initState: InitStateType = {
         isLogIn:false,
         user:{},
         isErr: false,
 };
 
-const authReduser = (state = initState, action) => {
+const authReduser = (state = initState, action: any): InitStateType => {
     
     switch (action.type) {
         case SET_LOG_IN:
@@ -65,31 +69,46 @@ const authReduser = (state = initState, action) => {
 
 };
 
-export const setLogin = (user) => ({
+type setLoginActionType = {
+    type: typeof SET_LOG_IN
+    user: Object
+}
+type setIsLogInActionType = {
+    type: typeof IS_LOG_IN
+    user: Object
+}
+type setLogOutActionType = {
+    type: typeof SET_LOG_OUT
+}
+type setMeActionType = {
+    type: typeof SET_ME
+}
+
+export const setLogin = (user: object): setLoginActionType => ({
     type: SET_LOG_IN,
     user
 })
-export const setIsLogIn = (user) => ({
+export const setIsLogIn = (user: object): setIsLogInActionType => ({
     type: IS_LOG_IN,
     user
 })
-export const setLogOut = () => ({
+export const setLogOut = (): setLogOutActionType => ({
     type: SET_LOG_OUT
 })
-export const setMe = () => ({
+export const setMe = (): setMeActionType => ({
     type: SET_ME
 })
 
 
-export const loginUser =  (xuser) => {
+export const loginUser =  (user: any) => {
 
-    return async (dispatch) => {
-        let myUser = {user:xuser}
+    return async (dispatch: any) => {
+      
        
         dispatch(isDataLoad(false));
         try{
         
-        let dataUser = await LogInUserApi(myUser);
+        let dataUser = await LogInUserApi(user);
         localStorage.setItem('token', dataUser.user.token);
         localStorage.setItem('email', dataUser.user.email);
         
@@ -101,9 +120,9 @@ export const loginUser =  (xuser) => {
         }
     }
 }
-export const registerNewUser =  (newUser) => {
+export const registerNewUser =  (newUser: any) => {
 
-    return async (dispatch) => {
+    return async (dispatch: any) => {
         let myUser = {user:newUser}
        
         dispatch(isDataLoad(false));
@@ -121,7 +140,7 @@ export const registerNewUser =  (newUser) => {
 }
 export const logOutUser=  () => {
 
-    return  (dispatch) => {
+    return  (dispatch: any) => {
         localStorage.clear()
         dispatch(setLogOut()); 
 

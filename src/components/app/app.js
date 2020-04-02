@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
-import {initializeApp} from '../../redux/app-reduser.ts';
+import {initializeApp} from '../../redux/app-reduser';
 
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import AboutPageContainer from '../pages/aboutpage';
