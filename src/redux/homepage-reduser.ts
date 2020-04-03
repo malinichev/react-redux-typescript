@@ -1,7 +1,7 @@
 import {homepageSlider1Api, getHomePageSliderItemApi} from '../api';
 
-import {stopSubmit} from 'redux-form';
-import {isDataLoad} from './app-reduser.ts';
+// import {stopSubmit} from 'redux-form';
+import {isDataLoad} from './app-reduser';
 
 
 
@@ -12,19 +12,23 @@ const SET_HOMEPAGE_SLIDER_ITEMS = 'homepage/SET_HOMEPAGE_SLIDER_ITEMS';
 const IS_ERROR_HOMEPAGE = 'homepage/IS_ERROR';
 const SET_ONE_TITLE_SLIDER = 'homepage/SET_ONE_TITLE_SLIDER';
 
+export type InitStateType = {
+    isSlider1Load: boolean
+    isErrorHP: boolean
+    isError: boolean
+    hpSliderItems: Array<string>
+    isLoad: boolean
+}
 
-const initState = {
-    
-        
-    
+const initState: InitStateType = {
     isSlider1Load:false,
     isErrorHP:false,
-    hpSliderItems:[],
-        
-    
+    isError: false,
+    hpSliderItems:[],    
+    isLoad: false
 };
 
-const homepageReduser = (state = initState, action) => {
+const homepageReduser = (state = initState, action: any): InitStateType => {
     switch (action.type) {
         case SET_ONE_TITLE_SLIDER:
             return {
@@ -35,7 +39,7 @@ const homepageReduser = (state = initState, action) => {
         case UPDATE_ONE_1SLIDER:
             // let idX = state.hpSliderItems.findIndex(el=>el.id===action.updateDataItem.id)
             return {
-                state,
+                ...state,
                 // ...state.hpSliderItems,
                 // hpSliderItems: [...state.hpSliderItems.slice(0, idX),action.updateDataItem, ...state.hpSliderItems.slice(idX + 1)]
             }
@@ -61,37 +65,64 @@ const homepageReduser = (state = initState, action) => {
             };
         case DEL_SLIDER1:
             return {
-                state
+                ...state
             };
         default:
             return state;
     }
 };
 
+type IsSlider1LoadActionType = {
+    type: typeof IS_SLIDER1_LOAD,
+    isSlider1Load: boolean
+}
 
-export const isSlider1Load = (isSlider1Load) => ({
+export const isSlider1Load = (isSlider1Load: boolean): IsSlider1LoadActionType => ({
     type: IS_SLIDER1_LOAD,
     isSlider1Load
 })
-export const setHpSliderItems = (hpSliderItems) => ({
+
+
+type SetHpSliderItemsActionType = {
+    type: typeof SET_HOMEPAGE_SLIDER_ITEMS,
+    hpSliderItems: Array<string>
+}
+export const setHpSliderItems = (hpSliderItems: Array<string>): SetHpSliderItemsActionType => ({
     type: SET_HOMEPAGE_SLIDER_ITEMS,
     hpSliderItems
 })
-export const setErrorHP = (err) => ({
+
+
+type SetErrorHPActionType = {
+    type: typeof IS_ERROR_HOMEPAGE,
+    err: boolean
+}
+export const setErrorHP = (err: boolean): SetErrorHPActionType => ({
     type: IS_ERROR_HOMEPAGE,
     err
 })
-export const setOneTitleSlider = (hpSliderItems) => ({
+
+
+type setOneTitleSliderActionType = {
+    type: typeof SET_ONE_TITLE_SLIDER,
+    hpSliderItems: Array<string>
+}
+export const setOneTitleSlider = (hpSliderItems: Array<string>): setOneTitleSliderActionType => ({
     type: SET_ONE_TITLE_SLIDER,
     hpSliderItems
 })
-export const updateOne1Slider = () => ({
+
+type updateOne1SliderActionType = {
+    type: typeof UPDATE_ONE_1SLIDER,
+   
+}
+export const updateOne1Slider = (): updateOne1SliderActionType => ({
     type: UPDATE_ONE_1SLIDER
 })
 
 
 
-export const updateOneHPSlider1 = (updateDataItem) => async  (dispatch) => {    
+export const updateOneHPSlider1 = (updateDataItem: any) => async  (dispatch: any) => {    
         try {
             dispatch(isDataLoad(false));
             dispatch(isSlider1Load(false));
@@ -108,8 +139,9 @@ export const updateOneHPSlider1 = (updateDataItem) => async  (dispatch) => {
                 
           } 
         catch(err) {
-            let action = stopSubmit('editPostForm', {_error:'Something wrong!! Try ealse!!'});
-                dispatch(action);
+            // let action = 
+            // stopSubmit('editPostForm', {_error:'Something wrong!! Try ealse!!'});
+                // dispatch(action);
                 dispatch(setErrorHP(err));
                 dispatch(isDataLoad(true));
                 dispatch(isSlider1Load(true));
@@ -117,7 +149,7 @@ export const updateOneHPSlider1 = (updateDataItem) => async  (dispatch) => {
           }
 
 }  
-export const delOneHPSlider1 = (idDeletedSlider) => async  (dispatch) => {    
+export const delOneHPSlider1 = (idDeletedSlider: any) => async  (dispatch: any) => {    
         try {
             dispatch(isDataLoad(false));
             dispatch(isSlider1Load(false));
@@ -133,8 +165,9 @@ export const delOneHPSlider1 = (idDeletedSlider) => async  (dispatch) => {
                 
           } 
         catch(err) {
-            let action = stopSubmit('editPostForm', {_error:'Something wrong!! Try ealse!!'});
-                dispatch(action);
+            // let action = 
+            // stopSubmit('editPostForm', {_error:'Something wrong!! Try ealse!!'});
+                // dispatch(action);
                 dispatch(setErrorHP(err));
                 dispatch(isDataLoad(true));
                 dispatch(isSlider1Load(true));
@@ -142,8 +175,8 @@ export const delOneHPSlider1 = (idDeletedSlider) => async  (dispatch) => {
           }
 
 }  
-export const setNewSlide1InHomepage= (newSliderData) => {
-    return async dispatch => {
+export const setNewSlide1InHomepage= (newSliderData: any) => {
+    return async( dispatch: any) => {
         try {
             dispatch(isDataLoad(false));
             dispatch(isSlider1Load(false));
@@ -159,8 +192,8 @@ export const setNewSlide1InHomepage= (newSliderData) => {
             
                 
         }catch(err) {
-                let action = stopSubmit('editPostForm', {_error:'Something wrong!! Try ealse!!'});
-                    dispatch(action);
+                // let action = stopSubmit('editPostForm', {_error:'Something wrong!! Try ealse!!'});
+                //     dispatch(action);
                     dispatch(setErrorHP(err));
                     dispatch(isSlider1Load(true));
                     dispatch(isDataLoad(true));
